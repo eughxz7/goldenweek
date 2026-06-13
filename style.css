@@ -48,7 +48,6 @@ h1 {
     letter-spacing: 2px;
 }
 
-/* PAINEL DE SINAIS ATIVOS */
 .display-operacional {
     background: #090b10;
     border: 2px solid var(--navy-blue);
@@ -76,7 +75,6 @@ h1 {
     color: #e4e7eb;
 }
 
-/* BOTÕES DE COMANDO (WIN / RED) */
 .botoes-comando {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -99,7 +97,6 @@ h1 {
 .btn-red { background-color: var(--red-color); color: #fff; }
 .btn-red:hover { filter: brightness(1.1); }
 
-/* CONTROLES SUPERIORES */
 .top-controls {
     display: grid;
     grid-template-columns: 1fr;
@@ -138,7 +135,25 @@ h1 {
     outline: none;
 }
 
-/* SWITCH DO STOP LOSS */
+.btn-clear-history {
+    width: 100%;
+    margin-top: 12px;
+    padding: 8px;
+    background: transparent;
+    border: 1px solid #2d3345;
+    color: #8f9bb3;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: 0.2s;
+}
+.btn-clear-history:hover {
+    border-color: var(--red-color);
+    color: var(--red-color);
+}
+
 .switch-container {
     display: flex;
     align-items: center;
@@ -211,6 +226,22 @@ input:checked + .slider:before { transform: translateX(24px); }
 .summary-box.box-meta strong { color: var(--win-green); }
 .summary-box.box-stop strong { color: var(--red-color); }
 
+/* CONTAINER DO GRÁFICO */
+.chart-container {
+    background: var(--zebra-bg);
+    border: 1px solid var(--border-color);
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+}
+.chart-container h3 {
+    font-size: 0.8rem;
+    color: #8f9bb3;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+}
+
 .table-container { 
     overflow-x: auto; 
     border-radius: 8px;
@@ -243,7 +274,6 @@ td {
 td:first-child, td:last-child { font-family: 'Inter', sans-serif; font-weight: 700; text-align: center; }
 tr:nth-child(even) { background-color: var(--zebra-bg); }
 
-/* Linha ativa dinâmica */
 tr.row-active td {
     background-color: rgba(255, 215, 0, 0.15) !important;
     border-top: 2px solid var(--navy-blue);
