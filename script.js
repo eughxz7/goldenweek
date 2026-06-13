@@ -49,6 +49,8 @@ function calcularEstrategia() {
     document.getElementById('lblStop').innerText = (usarStop && bancaDeTrabalho > 0) ? "R$ " + stopValor.toFixed(2).replace('.', ',') : (usarStop ? "R$ 0,00" : "DESATIVADO");
 
     const tbody = document.getElementById('tabelaCorpo');
+    if (!tbody) return; // Proteção para não travar se o HTML demorar a ler
+    
     tbody.innerHTML = ""; 
 
     let perdaAcumuladaLoop = 0;
@@ -82,6 +84,7 @@ function calcularEstrategia() {
             }
         }
 
+        // CORREÇÃO AQUI: Mudado estritamente para "tentativaAtual"
         if (i === tentativaAtual && bancaDeTrabalho > 0) {
             displayApostaValor = aposta;
             displayStatusTexto = statusText;
@@ -134,8 +137,13 @@ function calcularEstrategia() {
 }
 
 function iniciarPainel() {
-    document.getElementById('bancaAtual').value = bancaDeTrabalho.toFixed(2);
-    calcularEstrategia();
+    const campoBanca = document.getElementById('bancaAtual');
+    if(campoBanca) {
+        campoBanca.value = bancaDeTrabalho.toFixed(2);
+        calcularEstrategia();
+    }
 }
 
+// Dupla camada de execução para garantir o carregamento
 window.onload = iniciarPainel;
+document.addEventListener("DOMContentLoaded", iniciarPainel);
