@@ -1,4 +1,3 @@
-// O estado inicial busca a banca salva no celular; se não existir, começa em 0.00
 let tentativaAtual = 1;
 let perdaAcumuladaGlobal = 0;
 let bancaDeTrabalho = parseFloat(localStorage.getItem('bancaGoldenWeek')) || 0.00;
@@ -9,7 +8,6 @@ function resetarPainelCompleto() {
     tentativaAtual = 1;
     perdaAcumuladaGlobal = 0;
     
-    // Salva o valor no banco de dados quando o usuário digita manualmente
     localStorage.setItem('bancaGoldenWeek', bancaDeTrabalho.toFixed(2));
     calcularEstrategia();
 }
@@ -30,7 +28,6 @@ function registrarResultado(isWin) {
         tentativaAtual = 1;
         perdaAcumuladaGlobal = 0;
         
-        // SALVAMENTO AUTOMÁTICO DO GREEN: Guarda a nova banca no banco de dados local
         localStorage.setItem('bancaGoldenWeek', bancaDeTrabalho.toFixed(2));
     } else {
         if (apostaDaRodada > 0) {
@@ -85,7 +82,7 @@ function calcularEstrategia() {
             }
         }
 
-        if (i === tentativeAtual && bancaDeTrabalho > 0) {
+        if (i === tentativaAtual && bancaDeTrabalho > 0) {
             displayApostaValor = aposta;
             displayStatusTexto = statusText;
             if (statusText === "Bloqueado") {
@@ -131,16 +128,14 @@ function calcularEstrategia() {
     } else {
         txtDisplayStatus.innerText = displayStatusTexto === "Último Resto" ? "⚠️ ATENÇÃO - ENTRADA COM SALDO RESTANTE" : "Sinal Atual Para Entrada (No Branco)";
         displayApostaElement.innerText = "R$ " + displayApostaValor.toFixed(2).replace('.', ',');
-        displayApostaElement.style.color = "var(--navy-blue)";
+        displayApostaElement.style.color = "var(--gold-bright)";
         displayInfoElement.innerText = `Tentativa Nº ${tentativaAtual} | Perda Acumulada no Ciclo: R$ ${perdaAcumuladaGlobal.toFixed(2).replace('.', ',')}`;
     }
 }
 
-// Inicialização que joga o valor salvo direto para o campo visual do HTML
 function iniciarPainel() {
     document.getElementById('bancaAtual').value = bancaDeTrabalho.toFixed(2);
     calcularEstrategia();
 }
 
-// Roda a inicialização assim que carregar
-iniciarPainel();
+window.onload = iniciarPainel;
