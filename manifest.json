@@ -4,12 +4,12 @@
   "description": "Painel operacional interativo para gestão de banca com foco no Branco.",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#0f1115",
-  "theme_color": "#FFD700",
+  "background_color": "#0a0a0a",
+  "theme_color": "#c5a059",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/825/825590.png",
+      "src": "./icon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
