@@ -1,10 +1,11 @@
 :root {
-    --bg-primary: #0f1115;       
-    --bg-card: #151821;          
-    --navy-blue: #FFD700;        
+    --bg-primary: #0a0a0a;        /* Preto absoluto de fundo da imagem */
+    --bg-card: #111111;           /* Preto levemente cinza para os cards */
+    --gold-logo: #c5a059;         /* Tom principal de dourado da logo GW */
+    --gold-bright: #e5c17d;       /* Tom de ouro brilhante para realces */
     --text-dark: #ffffff;        
-    --border-color: #1a1d24;     
-    --zebra-bg: #181b22;         
+    --border-color: #222222;     
+    --zebra-bg: #161616;         
     --win-green: #10b981;
     --red-color: #ef4444;
 }
@@ -13,7 +14,6 @@
     box-sizing: border-box; 
     margin: 0; 
     padding: 0; 
-    font-family: 'Inter', sans-serif; 
     -webkit-font-smoothing: antialiased;
 }
 
@@ -25,6 +25,7 @@ body {
     justify-content: center;
     align-items: flex-start;
     min-height: 100vh;
+    font-family: 'Cinzel', serif; /* Fonte padrão igual da logo GW */
 }
 
 .container { 
@@ -32,48 +33,55 @@ body {
     max-width: 800px; 
     background: var(--bg-card); 
     padding: 32px 24px; 
-    border-radius: 12px; 
-    border: 1px solid #222735;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.35); 
+    border-radius: 14px; 
+    border: 1px solid #2c2519; /* Borda sutil bronzeada */
+    box-shadow: 0 15px 50px rgba(0,0,0,0.8); 
     margin: 10px auto;
 }
 
 h1 { 
-    color: var(--navy-blue); 
+    color: var(--gold-bright); 
     text-align: center; 
     margin-bottom: 24px; 
-    font-size: 2.2rem; 
-    font-weight: 800; 
+    font-size: 2.4rem; 
+    font-weight: 900; 
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
+    font-family: 'Cinzel', serif;
+    text-shadow: 0 2px 10px rgba(197, 160, 89, 0.2);
 }
 
 /* PAINEL DE SINAIS ATIVOS */
 .display-operacional {
-    background: #090b10;
-    border: 2px solid var(--navy-blue);
+    background: #050505;
+    border: 2px solid var(--gold-logo);
     border-radius: 8px;
-    padding: 20px;
+    padding: 24px;
     text-align: center;
     margin-bottom: 24px;
+    box-shadow: inset 0 0 15px rgba(197, 160, 89, 0.1);
 }
 .display-operacional span {
-    font-size: 0.8rem;
-    color: #8f9bb3;
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    color: #8a8a8a;
     text-transform: uppercase;
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
 }
 .display-operacional .valor-sinal {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 2.5rem;
+    font-family: 'Courier Prime', monospace; /* Fonte Dinheiro Americano */
+    font-size: 3.2rem;
     font-weight: 700;
-    color: var(--navy-blue);
-    margin: 8px 0;
+    color: var(--gold-bright);
+    margin: 10px 0;
+    letter-spacing: -1px;
 }
 .display-operacional .info-rodada {
+    font-family: 'Cinzel', serif;
     font-size: 0.9rem;
-    color: #e4e7eb;
+    color: #d1d1d1;
+    letter-spacing: 1px;
 }
 
 /* BOTÕES DE COMANDO (WIN / RED) */
@@ -84,14 +92,16 @@ h1 {
     margin-bottom: 24px;
 }
 .btn {
-    padding: 16px;
+    padding: 18px;
     border: none;
     border-radius: 8px;
     font-size: 1.1rem;
     font-weight: 700;
     text-transform: uppercase;
     cursor: pointer;
+    font-family: 'Cinzel', serif;
     transition: transform 0.1s ease, filter 0.2s ease;
+    letter-spacing: 1px;
 }
 .btn:active { transform: scale(0.97); }
 .btn-win { background-color: var(--win-green); color: #fff; }
@@ -121,17 +131,18 @@ h1 {
     font-weight: 700; 
     margin-bottom: 8px; 
     font-size: 0.75rem; 
-    color: var(--navy-blue); 
+    color: var(--gold-logo); 
     text-transform: uppercase;
+    letter-spacing: 1px;
 }
 .input-group input { 
     width: 100%; 
     padding: 12px; 
-    background-color: #0f1115;
-    border: 1px solid #2d3345; 
+    background-color: #0a0a0a;
+    border: 1px solid #333333; 
     border-radius: 6px; 
-    font-size: 1.4rem; 
-    font-family: 'JetBrains Mono', monospace; 
+    font-size: 1.5rem; 
+    font-family: 'Courier Prime', monospace; /* Fonte Dinheiro Americano */
     color: #fff;
     text-align: right; 
     font-weight: 700; 
@@ -145,12 +156,12 @@ h1 {
     justify-content: space-between;
     margin-top: 12px;
     padding-top: 12px;
-    border-top: 1px solid #2d3345;
+    border-top: 1px solid #222222;
 }
 .switch-label {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    color: #8f9bb3;
+    color: #8a8a8a;
     text-transform: uppercase;
 }
 .switch {
@@ -164,7 +175,7 @@ h1 {
     position: absolute;
     cursor: pointer;
     top: 0; left: 0; right: 0; bottom: 0;
-    background-color: #2d3345;
+    background-color: #333333;
     transition: .3s;
     border-radius: 34px;
 }
@@ -177,7 +188,7 @@ h1 {
     transition: .3s;
     border-radius: 50%;
 }
-input:checked + .slider { background-color: var(--win-green); }
+input:checked + .slider { background-color: var(--gold-logo); }
 input:checked + .slider:before { transform: translateX(24px); }
 
 .summary-grid { 
@@ -186,11 +197,11 @@ input:checked + .slider:before { transform: translateX(24px); }
     gap: 12px; 
 }
 .summary-box { 
-    background: #1c202e; 
+    background: #141414; 
     padding: 14px; 
     border-radius: 8px; 
     text-align: center; 
-    border: 1px solid #2d3345; 
+    border: 1px solid var(--border-color); 
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -198,14 +209,15 @@ input:checked + .slider:before { transform: translateX(24px); }
 .summary-box span { 
     display: block; 
     font-size: 0.7rem; 
-    color: #8f9bb3; 
+    color: #8a8a8a; 
     font-weight: 700; 
     margin-bottom: 6px;
     text-transform: uppercase;
+    letter-spacing: 1px;
 }
 .summary-box strong { 
-    font-size: 1.25rem; 
-    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.35rem; 
+    font-family: 'Courier Prime', monospace; /* Fonte Dinheiro Americano */
     color: #fff; 
 }
 .summary-box.box-meta strong { color: var(--win-green); }
@@ -220,37 +232,51 @@ table {
     width: 100%; 
     border-collapse: collapse; 
     min-width: 540px; 
-    font-size: 0.85rem; 
-    background-color: #151821;
+    font-size: 0.9rem; 
+    background-color: var(--bg-card);
 }
 th { 
-    background-color: #1c202e; 
-    color: var(--navy-blue); 
+    background-color: #141414; 
+    color: var(--gold-logo); 
     padding: 14px 8px; 
     font-weight: 700; 
     text-align: center; 
     text-transform: uppercase;
     font-size: 0.75rem;
     border-bottom: 2px solid var(--border-color);
+    letter-spacing: 1px;
 }
 td { 
-    padding: 12px 8px; 
+    padding: 14px 8px; 
     border: 1px solid var(--border-color); 
     text-align: right; 
     color: #e4e7eb;
-    font-family: 'JetBrains Mono', monospace; 
+    font-family: 'Courier Prime', monospace; /* Números em Dinheiro Americano */
 }
-td:first-child, td:last-child { font-family: 'Inter', sans-serif; font-weight: 700; text-align: center; }
+td:first-child { 
+    font-family: 'Cinzel', serif; 
+    font-weight: 700; 
+    text-align: center; 
+    color: var(--gold-logo);
+}
+td:last-child {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    text-align: center;
+}
 tr:nth-child(even) { background-color: var(--zebra-bg); }
 
-/* Linha ativa dinâmica */
+/* Linha ativa dinâmica dourada premium */
 tr.row-active td {
-    background-color: rgba(255, 215, 0, 0.15) !important;
-    border-top: 2px solid var(--navy-blue);
-    border-bottom: 2px solid var(--navy-blue);
+    background-color: rgba(197, 160, 89, 0.12) !important;
+    border-top: 1px solid var(--gold-logo);
+    border-bottom: 1px solid var(--gold-logo);
     color: #fff !important;
 }
-tr.row-resto td { background-color: rgba(245, 158, 11, 0.12) !important; color: #fbbf24 !important; }
-tr.row-blocked td { background-color: rgba(239, 68, 68, 0.06) !important; color: #4e525e !important; }
+tr.row-active td:first-child {
+    color: var(--gold-bright) !important;
+}
+tr.row-resto td { background-color: rgba(245, 158, 11, 0.08) !important; color: #fbbf24 !important; }
+tr.row-blocked td { background-color: rgba(239, 68, 68, 0.04) !important; color: #555555 !important; }
 .txt-bold { font-weight: 700; }
-.txt-gold { color: var(--navy-blue); }
+.txt-gold { color: var(--gold-bright); }
