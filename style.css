@@ -19,13 +19,12 @@
 
 body { 
     background-color: var(--bg-primary); 
-    padding: 20px 12px; 
     color: var(--text-dark); 
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    font-family: 'Cinzel', serif;
+    width: 100%; /* Agora ele se adapta ao tamanho da janela */
     min-height: 100vh;
-    font-family: 'Cinzel', serif; /* Fonte padrão igual da logo GW */
+    padding: 15px;
+    overflow-x: hidden; /* Evita barra de rolagem horizontal feia */
 }
 
 .container { 
