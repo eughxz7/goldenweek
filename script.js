@@ -1,58 +1,16 @@
+// O estado inicial busca a banca salva no celular; se não existir, começa em 0.00
 let tentativaAtual = 1;
 let perdaAcumuladaGlobal = 0;
-let bancaDeTrabalho = 0.00;
-
-// Variáveis do Gráfico de Evolução
-let graficoInstancia = null;
-let historicoBanca = [];
-let historicoLabels = [];
-
-// Função executada assim que a página carrega
-window.addEventListener('DOMContentLoaded', () => {
-    // 1. Tenta recuperar a banca salva no último Green
-    const bancaSalva = localStorage.getItem('gw_banca_salva');
-    if (bancaSalva && parseFloat(bancaSalva) > 0) {
-        bancaDeTrabalho = parseFloat(bancaSalva);
-        document.getElementById('bancaAtual').value = bancaDeTrabalho.toFixed(2);
-    } else {
-        bancaDeTrabalho = 0.00;
-        document.getElementById('bancaAtual').value = "0.00";
-    }
-
-    // 2. Tenta recuperar o histórico do gráfico do banco de dados local
-    const historicoSalvo = localStorage.getItem('gw_historico_grafico');
-    const labelsSalvas = localStorage.getItem('gw_labels_grafico');
-
-    if (historicoSalvo && labelsSalvas) {
-        historicoBanca = JSON.parse(historicoSalvo);
-        historicoLabels = JSON.parse(labelsSalvas);
-    } else if (bancaDeTrabalho > 0) {
-        // Se tem banca mas não tem gráfico, cria o ponto de partida
-        historicoBanca = [bancaDeTrabalho];
-        historicoLabels = ['Início'];
-    }
-
-    // 3. Renderiza a tela inicial
-    inicializarGrafico();
-    calcularEstrategia();
-});
+let bancaDeTrabalho = parseFloat(localStorage.getItem('bancaGoldenWeek')) || 0.00;
 
 function resetarPainelCompleto() {
     const inputBanca = parseFloat(document.getElementById('bancaAtual').value) || 0;
     bancaDeTrabalho = inputBanca;
     tentativaAtual = 1;
     perdaAcumuladaGlobal = 0;
-
-    // Se mudou a banca manualmente, atualiza o início do gráfico também
-    if (historicoBanca.length <= 1) {
-        historicoBanca = bancaDeTrabalho > 0 ? [bancaDeTrabalho] : [];
-        historicoLabels = bancaDeTrabalho > 0 ? ['Início'] : [];
-        salvarDadosLocais();
-        atualizarGrafico();
-    }
-
-    // Salva o valor atual digitado
-    localStorage.setItem('gw_banca_salva', bancaDeTrabalho.toFixed(2));
+    
+    // Salva o valor no banco de dados quando o usuário digita manualmente
+    localStorage.setItem('bancaGoldenWeek', bancaDeTrabalho.toFixed(2));
     calcularEstrategia();
 }
 
@@ -71,20 +29,9 @@ function registrarResultado(isWin) {
         bancaDeTrabalho = novaBanca;
         tentativaAtual = 1;
         perdaAcumuladaGlobal = 0;
-
-        // SALVAMENTO NO LOCALSTORAGE (SÓ VAI SALVAR A BANCA DEPOIS QUE CONSEGUIR O GREEN)
-        localStorage.setItem('gw_banca_salva', bancaDeTrabalho.toFixed(2));
-
-        // ADICIONAR NOVO PONTO AO GRÁFICO
-        if(historicoBanca.length === 0) {
-            historicoLabels.push('Início');
-            historicoBanca.push(novaBanca);
-        }
-        historicoLabels.push(`G ${historicoBanca.length}`);
-        historicoBanca.push(novaBanca);
         
-        salvarDadosLocais();
-        atualizarGrafico();
+        // SALVAMENTO AUTOMÁTICO DO GREEN: Guarda a nova banca no banco de dados local
+        localStorage.setItem('bancaGoldenWeek', bancaDeTrabalho.toFixed(2));
     } else {
         if (apostaDaRodada > 0) {
             perdaAcumuladaGlobal = Math.round((perdaAcumuladaGlobal + apostaDaRodada) * 100) / 100;
@@ -92,20 +39,6 @@ function registrarResultado(isWin) {
         }
     }
     calcularEstrategia();
-}
-
-function salvarDadosLocais() {
-    localStorage.setItem('gw_historico_grafico', JSON.stringify(historicoBanca));
-    localStorage.setItem('gw_labels_grafico', JSON.stringify(historicoLabels));
-}
-
-function limparHistoricoGrafico() {
-    if(confirm("Deseja mesmo zerar o histórico do gráfico de evolução?")) {
-        historicoBanca = bancaDeTrabalho > 0 ? [bancaDeTrabalho] : [];
-        historicoLabels = bancaDeTrabalho > 0 ? ['Início'] : [];
-        salvarDadosLocais();
-        atualizarGrafico();
-    }
 }
 
 function calcularEstrategia() {
@@ -152,7 +85,7 @@ function calcularEstrategia() {
             }
         }
 
-        if (i === tentativaAtual && bancaDeTrabalho > 0) {
+        if (i === tentativeAtual && bancaDeTrabalho > 0) {
             displayApostaValor = aposta;
             displayStatusTexto = statusText;
             if (statusText === "Bloqueado") {
@@ -203,50 +136,11 @@ function calcularEstrategia() {
     }
 }
 
-// INICIALIZAÇÃO DO GRÁFICO INTERATIVO
-function inicializarGrafico() {
-    const ctx = document.getElementById('graficoBanca').getContext('2d');
-    graficoInstancia = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: historicoLabels,
-            datasets: [{
-                label: 'Banca (R$)',
-                data: historicoBanca,
-                borderColor: '#FFD700', // Dourado oficial
-                backgroundColor: 'rgba(255, 215, 0, 0.05)',
-                borderWidth: 2,
-                pointBackgroundColor: '#10b981', // Ponto do Green verde
-                pointBorderColor: '#fff',
-                pointRadius: 4,
-                tension: 0.1,
-                fill: true
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                x: {
-                    grid: { color: '#1a1d24' },
-                    ticks: { color: '#8f9bb3', font: { size: 10 } }
-                },
-                y: {
-                    grid: { color: '#1a1d24' },
-                    ticks: { color: '#8f9bb3', font: { size: 10 } }
-                }
-            },
-            plugins: {
-                legend: { display: false }
-            }
-        }
-    });
+// Inicialização que joga o valor salvo direto para o campo visual do HTML
+function iniciarPainel() {
+    document.getElementById('bancaAtual').value = bancaDeTrabalho.toFixed(2);
+    calcularEstrategia();
 }
 
-function atualizarGrafico() {
-    if (graficoInstancia) {
-        graficoInstancia.data.labels = historicoLabels;
-        graficoInstancia.data.datasets[0].data = historicoBanca;
-        graficoInstancia.update();
-    }
-}
+// Roda a inicialização assim que carregar
+iniciarPainel();
