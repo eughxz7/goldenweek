@@ -1,4 +1,4 @@
-const CACHE_NAME = 'golden-week-cache-v2';
+const CACHE_NAME = 'golden-week-cache-v3'; // Atualizado para v3 para forçar a troca
 const assets = [
   './',
   './index.html',
@@ -17,8 +17,19 @@ self.addEventListener('install', e => {
   );
 });
 
+// COMANDO DE LIMPEZA: Procura versões antigas e deleta da memória do aparelho
 self.addEventListener('activate', e => {
-  e.waitUntil(self.clients.claim());
+  e.waitUntil(
+    caches.keys().then(keys => {
+      return Promise.all(
+        keys.map(key => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
+      );
+    }).then(() => self.clients.claim())
+  );
 });
 
 self.addEventListener('fetch', e => {
